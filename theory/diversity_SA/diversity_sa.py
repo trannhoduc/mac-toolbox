@@ -182,6 +182,58 @@ class FrequentDiversity:
         plt.grid()
         plt.show()
 
+class TimeDiversity:
+    def __init__(self, l, k, G):
+        """Initialize the class."""
+        self.l = l
+        self.k = k
+        self.G = G
+
+    def binomial_coefficient(self, n, k):
+        """Calculate the binomial coefficient (n choose k)."""
+        if k > n or k < 0:
+            return 0
+        return math.comb(n, k)
+
+    def calculate_Ps_full_formula_replacement(self, l=8, k=1, G=0.8):
+        """Calculate P_s (probability message is sent successfully) using the full given formula, including k."""
+        l = l or self.l
+        k = k or self.k
+        G = G or self.G
+
+        Ps = 0  # Initialize P_s
+
+        for m in range(1, l + 1):  # Outer summation over m
+            # Calculate the inner summation over v
+            inner_sum = 0
+            for v in range(0, l - m + 1):
+                coefficient = (-1)**v * self.binomial_coefficient(l - m, v)
+                inner_sum += coefficient * np.exp(-G * l * (1 - (1 - (m + v) / l)**k))
+            
+            # Calculate the remaining terms of the formula
+            term_1 = 1 - (1 - m / l)**k
+            binomial_term = self.binomial_coefficient(l, m)
+            
+            # Update P_s with the current term
+            Ps += term_1 * binomial_term * inner_sum
+
+        return Ps
+
+    def plot_throughput_vs_activity_factor_replacement(self, l=8, G=0.8):
+        """
+        Plot throughput (S) vs activity factor (Ra) (with replacement).
+        - Plot 4 line with k = 1,2,3,4
+        - G is the arrival rate parameter
+        - L is the total number of channels
+        - The function plot by calculating S and Ra by varying G, and k. 
+        Additionally, when G rise over a specific value, the throughput will decrease. 
+        However, plot by varying S is more difficult when calculating Ps and Ra is more toughful
+        """
+        l = l or self.l
+        G = G or self.G
+
+        G_values = np.linspace
+
 if __name__ == "__main__":
     # Example Inputs
     l = 8  # Total number of channels

@@ -4,7 +4,7 @@ import numpy as np
 import simpy
 
 NUM_STATIONS = 4
-NUM_REPLICATIONS = 3
+NUM_REPLICATIONS = 1
 TRANSIENT_TIME = 25
 TERMINATE_TIME = 10000
 STEADY_STATE_TIME = TERMINATE_TIME - TRANSIENT_TIME
@@ -190,4 +190,4 @@ if __name__ == '__main__':
             station.generate_report()
         generate_report_single_replication(mean_transmit_times, mean_num_retries, channel_utilizations, stations)
 
-    generate_report_all_replications(mean_transmit_times, mean_num_retries, channel_utilizations)
+    #generate_report_all_replications(mean_transmit_times, mean_num_retries, channel_utilizations)
