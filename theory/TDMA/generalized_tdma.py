@@ -21,9 +21,10 @@ class Generalized_FDMA():
         '''
         Calculate the average delay in a system with M servers
         '''
-        if P >= 1:
-            return 0  # Return 0 if utilization is 100% or more to avoid division by zero
-        return M * (L - 1 / 2) + ((M * L ** 2) / L) * (P / (2 * (1 - P))) + 1
+        for i in range(1, d):
+            delay += d[i] * D / self.Tc
+
+        return delay
 
     
     def plot_delay_vs_M(self, M=None, L=None, P=None):
